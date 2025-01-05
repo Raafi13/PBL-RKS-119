@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto; border: 2px solid #ccc; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
+    <h1 style="text-align: center;">Note Details🗒️</h1>
+
+    <!-- Kolom Judul -->
+    <p><strong>Title:</strong> {{ note.recipient }}</p>
+
+    <p><strong>Encrypted Note:</strong> {{ note.note }}</p>
+    <p><strong>Password Hint:</strong> {{ note.hint }}</p>
+
+    <form method="POST" action="{{ url_for('decrypt', index=index) }}">
+        <div style="margin-bottom: 15px;">
+            <label for="encryption_type">Encryption Type:</label>
+            <select name="encryption_type" id="encryption_type" required style="display: block; width: 100%; margin-bottom: 10px;">
+                <option value="text">Text (Vigenère Cipher)</option>
+                <option value="math">Math Formula</option>
+                <option value="morse">Morse Code</option>
+            </select>
+        </div>
+    
+        <div style="margin-bottom: 15px;">
+            <label for="password">Enter Password:</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Enter your decryption password" 
+                required 
+                style="display: block; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+        </div>
+    
+        <button type="submit" style="display: block; width: 100%; padding: 10px; background-color: #000000; color: white; border: none; border-radius: 5px; cursor: pointer;">Decrypt</button>
+    </form>    
+
+    {% if error %}
+        <p style="color: red; text-align: center; margin-top: 15px;">{{ error }}</p>
+    {% endif %}
+
+    {% if decrypted_note %}
+        <h2 style="text-align: center; margin-top: 20px;">Decrypted Note:</h2>
+        <p style="text-align: center; background-color: #ff69b4; padding: 10px; border-radius: 5px; display: inline-block;">{{ decrypted_note }}</p>
+    {% endif %}
+</div>
+{% endblock %}
